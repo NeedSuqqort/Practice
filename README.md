@@ -8,7 +8,7 @@ Feel free to commit to your own branch(local/origin), but DO NOT merge your bran
 
 Layout and styles are free of requirements, this practice focuses on react only.
 You may use CRA (Create React App) for this tutorial
-Please use React classes not hooks
+Please use React hooks
 A demo video file is provided for reference only, NOT required to be the same.
 
 
