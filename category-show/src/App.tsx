@@ -4,27 +4,16 @@ import {
   Route,
 } from "react-router-dom";
 import "./App.css";
-import { Category } from "./component/category/category";
-import { Navbar } from "./component/navbar/navbar";
-import { Item } from "./component/category/item";
+import { Item } from "./pages/item/item";
+import {Home} from "./pages/home/home";
 
-const Home = () => {
-  return (
-    <>
-    <Navbar/>
-     <Category />
-    </>
-  );
-};
 
 const App = () => {
   return (
-    <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/items" element={<Item />} />
+        <Route path="/item" element={<Item />} />
       </Routes>
-    </div>
   );
 };
 
