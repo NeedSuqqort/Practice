@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./category.module.scss";
 
-const Product = (props: any) => {
+interface productProps {
+  name:string,
+}
+
+export const Product = (props: any) => {
   const [isPreviewShown, setIsPreviewShown] = useState<any>(false);
   const [isSelected, setIsSelected] = useState<any>(false);
-  const [selectedItems, setSelectedItems] = props.selecthook;
+  const [selectedItems, setSelectedItems] = props?.selecthook;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,8 +64,9 @@ const Product = (props: any) => {
           ? styles.gridboxIsPreviewed
           : styles.gridboxIsNotPreviewed
       } ${styles.gridbox}`}
+      data-testid={`product-${props.index}`}
     >
-      <div className={styles.productimage}>
+      <div className={styles.productimage} id='image 1'>
         <img alt="product" src={props.item?.variantOptions[0].mainImage?.url} />
       </div>
       <div>
@@ -100,5 +105,3 @@ const Product = (props: any) => {
     </div>
   );
 };
-
-export default Product;

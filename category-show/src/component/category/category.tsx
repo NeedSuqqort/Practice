@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react"; // let's also import Component
 import axios from "axios";
 import styles from "./category.module.scss";
-import Product from "./product";
+import {Product} from "./product";
 
 export const Category = () => {
   const [data, setData] = useState<any>([]);
@@ -26,7 +26,7 @@ export const Category = () => {
   }, []);
 
   return (
-    <ul className={styles.container}>
+    <ul className={styles.container} data-testid="category-1">
       {data?.products?.map((item: any, index: any) => {
         return (
           <li key={index}>

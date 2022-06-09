@@ -7,11 +7,12 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
     "@types/node": "^16.11.38",
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
+    "@types/react-test-renderer": "^18.0.0",
     "axios": "^0.27.2",
+    "history": "^5.3.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",
@@ -48,8 +49,17 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
+    "@testing-library/react-hooks": "^8.0.0",
+    "@types/jest": "^27.5.2",
     "@types/redux-logger": "^3.0.9",
+    "babel-jest": "^28.1.1",
+    "jest": "^28.1.1",
     "jest-dom": "^4.0.0",
-    "react-test-render": "^1.1.2"
+    "react-test-render": "^1.1.2",
+    "react-test-renderer": "^18.1.0",
+    "ts-jest": "^28.0.4"
   }
 }

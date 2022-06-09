@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`match snapshot 1`] = `
+<div
+  className="gridboxIsNotSelected gridboxIsNotPreviewed gridbox"
+  data-testid="product-0"
+>
+  <div
+    className="productimage"
+  >
+    <img
+      alt="product"
+    />
+  </div>
+  <div>
+    <span>
+      iphone
+    </span>
+  </div>
+  <div
+    className="buttonlist"
+  >
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Preview
+    </button>
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Details
+    </button>
+  </div>
+</div>
+`;
