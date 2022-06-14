@@ -34,7 +34,7 @@ export const Product = (props: any) => {
         addToCartAction({name: props.item.name, id: props.index })
       );
     } else {
-      dispatch(dispatch(removeCartAction(props.item.name)));
+      dispatch(removeCartAction(props.item.name));
     }
   };
 
