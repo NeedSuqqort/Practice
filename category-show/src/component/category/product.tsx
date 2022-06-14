@@ -1,22 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./category.module.scss";
-import { ICart } from "../../redux/types";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartAction, removeCartAction } from "../../redux/actions";
 import { IRootState } from "../../redux/store";
 
-const init: ICart = {
-  name: "",
-  id: 0,
-};
 
 export const Product = (props: any) => {
   const [isPreviewShown, setIsPreviewShown] = useState<any>(false);
   const [isSelected, setIsSelected] = useState<any>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [state, setState] = useState(init);
   const cart = useSelector((state: IRootState) => state.cart);
 
   useEffect(() => {
@@ -37,9 +31,8 @@ export const Product = (props: any) => {
     console.log("item name = " + props.item.name);
     if (!isSelected) {
       dispatch(
-        addToCartAction({ ...state, name: props.item.name, id: props.index })
+        addToCartAction({name: props.item.name, id: props.index })
       );
-      setState(init);
     } else {
       dispatch(dispatch(removeCartAction(props.item.name)));
     }
