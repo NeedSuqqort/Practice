@@ -1,35 +1,50 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./category.module.scss";
+import { ICart } from "../../redux/types";
+import { useDispatch } from 'react-redux';
+import { addToCartAction,removeCartAction } from '../../redux/actions';
 
-interface productProps {
-  name:string,
-}
+const init: ICart = {
+  name: '',
+  id: 0,
+};
+
 
 export const Product = (props: any) => {
   const [isPreviewShown, setIsPreviewShown] = useState<any>(false);
   const [isSelected, setIsSelected] = useState<any>(false);
   const [selectedItems, setSelectedItems] = props?.selecthook;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [state, setState] = useState(init);
 
   useEffect(() => {
     if (selectedItems[props.index]) {
       setIsSelected(true);
     }
+
+
+
   }, []);
 
   const toggle_preview = () => {
     setIsPreviewShown(!isPreviewShown);
   };
 
-  const select_item = () => {
+  const select_item = async (e:any) => {
+    e.preventDefault();
     console.log("item index = " + props.index);
     console.log("item name = " + props.item.name);
     setIsSelected(!isSelected);
     if (!isSelected) {
       setSelectedItems({ ...selectedItems, [props.index]: props.item.name });
+      dispatch(addToCartAction({ ...state, name: props.item.name,id:props.index }));
+      setState(init);
     } else {
       delete selectedItems[props.index];
+      dispatch(dispatch(removeCartAction(props.item.name)));
+
     }
   };
 
@@ -96,7 +111,7 @@ export const Product = (props: any) => {
           <div>{props.item?.code}</div>
           <div>{props.item?.price?.formattedValue}</div>
           <div className={styles.buttonlist}>
-            <button className={styles.button} onClick={(e) => select_item()}>
+            <button className={styles.button} onClick={(e) => select_item(e)}>
               {isSelected ? "Cancel" : "Select"}
             </button>
           </div>

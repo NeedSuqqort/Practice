@@ -2,12 +2,13 @@ import { useEffect, useState, useCallback } from "react"; // let's also import C
 import axios from "axios";
 import styles from "./category.module.scss";
 import {Product} from "./product";
+import { Cart } from "../cart/cart";
+
 
 export const Category = () => {
   const [data, setData] = useState<any>([]);
   const [selectedItems, setSelectedItems] = useState<any>({});
-  const selecthook = [selectedItems, setSelectedItems];
-
+ 
   const fetchMyAPI = useCallback(async () => {
     console.log("fetch data...");
     let response = await axios.get("/data/data.json");
@@ -26,14 +27,17 @@ export const Category = () => {
   }, []);
 
   return (
+    <>
     <ul className={styles.container} data-testid="category-1">
       {data?.products?.map((item: any, index: any) => {
         return (
           <li key={index}>
-            <Product item={item} index={index} selecthook={selecthook} />
+            <Product item={item} index={index} selecthook={[selectedItems, setSelectedItems]} />
           </li>
         );
       })}
     </ul>
+    <Cart/>
+    </>
   );
 };

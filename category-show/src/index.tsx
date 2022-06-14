@@ -5,14 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import thunk from "redux-thunk"
-import reducer from "./redux/reducer"
-import { createStore, applyMiddleware, Store } from "redux"
-
+import {store} from "./redux/store";
 // https://www.freecodecamp.org/news/how-to-use-redux-in-your-react-typescript-app/
-const store: Store<ArticleState, ArticleAction> & {
-  dispatch: DispatchType
-} = createStore(reducer, applyMiddleware(thunk))
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
