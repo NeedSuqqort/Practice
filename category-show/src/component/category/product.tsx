@@ -2,49 +2,46 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./category.module.scss";
 import { ICart } from "../../redux/types";
-import { useDispatch } from 'react-redux';
-import { addToCartAction,removeCartAction } from '../../redux/actions';
+import { useDispatch, useSelector } from "react-redux";
+import { addToCartAction, removeCartAction } from "../../redux/actions";
+import { IRootState } from "../../redux/store";
 
 const init: ICart = {
-  name: '',
+  name: "",
   id: 0,
 };
-
 
 export const Product = (props: any) => {
   const [isPreviewShown, setIsPreviewShown] = useState<any>(false);
   const [isSelected, setIsSelected] = useState<any>(false);
-  const [selectedItems, setSelectedItems] = props?.selecthook;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState(init);
+  const cart = useSelector((state: IRootState) => state.cart);
 
   useEffect(() => {
-    if (selectedItems[props.index]) {
+    if (cart.find((item) => item.id === props.index)) {
       setIsSelected(true);
+    } else {
+      setIsSelected(false);
     }
-
-
-
-  }, []);
+  }, [cart]);
 
   const toggle_preview = () => {
     setIsPreviewShown(!isPreviewShown);
   };
 
-  const select_item = async (e:any) => {
+  const select_item = async (e: any) => {
     e.preventDefault();
     console.log("item index = " + props.index);
     console.log("item name = " + props.item.name);
-    setIsSelected(!isSelected);
     if (!isSelected) {
-      setSelectedItems({ ...selectedItems, [props.index]: props.item.name });
-      dispatch(addToCartAction({ ...state, name: props.item.name,id:props.index }));
+      dispatch(
+        addToCartAction({ ...state, name: props.item.name, id: props.index })
+      );
       setState(init);
     } else {
-      delete selectedItems[props.index];
       dispatch(dispatch(removeCartAction(props.item.name)));
-
     }
   };
 
@@ -55,9 +52,6 @@ export const Product = (props: any) => {
     price: any,
     description: any
   ) => {
-    console.log(JSON.stringify(selectedItems));
-    window.localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
-
     console.log(`[details] click item ${index} details`);
     navigate("/item", {
       replace: false,
@@ -81,7 +75,7 @@ export const Product = (props: any) => {
       } ${styles.gridbox}`}
       data-testid={`product-${props.index}`}
     >
-      <div className={styles.productimage} id='image 1'>
+      <div className={styles.productimage} id="image 1">
         <img alt="product" src={props.item?.variantOptions[0].mainImage?.url} />
       </div>
       <div>

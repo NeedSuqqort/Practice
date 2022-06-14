@@ -7,7 +7,6 @@ import { Cart } from "../cart/cart";
 
 export const Category = () => {
   const [data, setData] = useState<any>([]);
-  const [selectedItems, setSelectedItems] = useState<any>({});
  
   const fetchMyAPI = useCallback(async () => {
     console.log("fetch data...");
@@ -19,11 +18,6 @@ export const Category = () => {
 
   useEffect(() => {
     fetchMyAPI();
-    if (window.localStorage.getItem("selectedItems")) {
-      setSelectedItems(
-        JSON.parse(window.localStorage.getItem("selectedItems")!)
-      );
-    }
   }, []);
 
   return (
@@ -32,7 +26,7 @@ export const Category = () => {
       {data?.products?.map((item: any, index: any) => {
         return (
           <li key={index}>
-            <Product item={item} index={index} selecthook={[selectedItems, setSelectedItems]} />
+            <Product item={item} index={index} />
           </li>
         );
       })}
