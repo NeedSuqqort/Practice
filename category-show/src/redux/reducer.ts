@@ -4,7 +4,7 @@ import { ADD_TO_CART, DELETE_CART } from './actionTypes';
 const initalState: ICart[] = [
 ];
 
-const userReducers = (state = initalState, action: ICartActionModel) => {
+const cartReducers = (state = initalState, action: ICartActionModel) => {
   const { type, payload } = action;
   switch (type) {
     case ADD_TO_CART:
@@ -16,4 +16,4 @@ const userReducers = (state = initalState, action: ICartActionModel) => {
       return state;
   }
 };
-export default userReducers;
+export default cartReducers;
