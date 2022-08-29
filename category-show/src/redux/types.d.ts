@@ -1,6 +1,7 @@
 export interface ICart {
   name: string;
-  id: number;
+  id: string;
+  quantity:number;
 }
 
 export interface ICartActionModel {
