@@ -9,6 +9,7 @@ import { IRootState } from "../../redux/store";
 export const Product = (props: any) => {
   const [isPreviewShown, setIsPreviewShown] = useState<any>(false);
   const [isSelected, setIsSelected] = useState<any>(false);
+  const [quantity, setQuantity] = useState<number>(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state: IRootState) => state.cart);
@@ -21,22 +22,29 @@ export const Product = (props: any) => {
     }
   }, [cart]);
 
+  const handleChange = (event: any) => {
+      setQuantity(event.target.value)
+  }
+
   const toggle_preview = () => {
     setIsPreviewShown(!isPreviewShown);
   };
 
   const select_item = async (e: any) => {
     e.preventDefault();
-    console.log("item index = " + props.index);
-    console.log("item name = " + props.item.name);
-    if (!isSelected) {
       dispatch(
-        addToCartAction({name: props.item.name, id: props.index })
+        addToCartAction({ name: props.item.name, id: props.index, quantity: quantity })
       );
-    } else {
-      dispatch(removeCartAction(props.item.name));
-    }
   };
+
+  const deselect_item = async (e: any) => {
+    e.preventDefault();
+        dispatch(removeCartAction(props.item.name));
+
+  };
+
+
+
 
   const toggle_details = (
     index: number,
@@ -59,13 +67,11 @@ export const Product = (props: any) => {
 
   return (
     <div
-      className={`${
-        isSelected ? styles.gridoxIsSelected : styles.gridboxIsNotSelected
-      } ${
-        isPreviewShown
+      className={`${isSelected ? styles.gridoxIsSelected : styles.gridboxIsNotSelected
+        } ${isPreviewShown
           ? styles.gridboxIsPreviewed
           : styles.gridboxIsNotPreviewed
-      } ${styles.gridbox}`}
+        } ${styles.gridbox}`}
       data-testid={`product-${props.index}`}
     >
       <div className={styles.productimage} id="image 1">
@@ -99,8 +105,15 @@ export const Product = (props: any) => {
           <div>{props.item?.price?.formattedValue}</div>
           <div className={styles.buttonlist}>
             <button className={styles.button} onClick={(e) => select_item(e)}>
-              {isSelected ? "Cancel" : "Select"}
+              Add
             </button>
+            <button className={styles.button} onClick={(e) => deselect_item(e)}>
+              Cancel
+            </button>
+            <label>
+              Quantity:
+              <input type="number" value={quantity} onChange={handleChange} />
+            </label>
           </div>
         </div>
       )}

@@ -8,6 +8,6 @@ export const addToCartAction = (item: ICart) => {
   };
 };
 
-export const removeCartAction = (name: string) => {
-  return { type: DELETE_CART, payload: { name } };
+export const removeCartAction = (id: string) => {
+  return { type: DELETE_CART, payload: { id } };
 };

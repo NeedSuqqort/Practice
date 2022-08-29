@@ -12,15 +12,15 @@ export const Cart = () => {
       <div>Cart</div>
       <table>
         <tbody>
-          {cart.map((item: ICart) => {
-            const { name, id } = item;
+          {cart.map((item: ICart,index) => {
+            const { name, id,quantity } = item;
             return (
-              <tr key={id}>
+              <tr key={index}>
                 <td>{id}: </td>
                 <td>{name}</td>
-
+                <td>quantity: {quantity}</td>
                 <td
-                  onClick={() => dispatch(removeCartAction(name))}
+                  onClick={() => dispatch(removeCartAction(id))}
                   key={`delete-${name}`}
                 >
                   ❌
