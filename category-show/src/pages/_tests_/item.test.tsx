@@ -1,4 +1,4 @@
-import { Item } from "./item";
+import { Item } from "../item";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
     Route,

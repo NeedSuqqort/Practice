@@ -4,8 +4,8 @@ import {
   Route,
 } from "react-router-dom";
 import "./App.css";
-import { Item } from "./pages/item/item";
-import {Home} from "./pages/home/home";
+import { Item } from "./pages/item";
+import {Home} from "./pages/home";
 
 
 const App = () => {

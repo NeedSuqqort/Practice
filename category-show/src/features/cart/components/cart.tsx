@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ICart } from "../../redux/types";
-import { removeCartAction } from "../../redux/actions";
-import { IRootState } from "../../redux/store";
+import { ICart } from "../../../redux/types";
+import { removeCartAction } from "../../../redux/actions";
+import { IRootState } from "../../../redux/store";
 
 export const Cart = () => {
   const cart = useSelector((state: IRootState) => state.cart);

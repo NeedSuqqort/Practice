@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react"; // let's also import C
 import axios from "axios";
 import styles from "./category.module.scss";
 import {Product} from "./product";
-import { Cart } from "../cart/cart";
+import { Cart } from "../cart/components/cart";
 
 
 export const Category = () => {
