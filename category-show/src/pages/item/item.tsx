@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../features/category/category.module.scss"
+import styles from "../../features/category/category.module.scss"
 
 export const Item = () => {
   const location: any = useLocation();
