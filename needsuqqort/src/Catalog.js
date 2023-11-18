@@ -26,9 +26,10 @@ class Catalog extends Component {
         price: product.price ? product.price : product.priceList['0'],
         previewing: false,
         selected: false,
-        description: product.description,
+        description: product.description ? this.processString(product.description) : "",
+        summary: product.summary ? this.processString(product.summary) : "",
         inStock: product.stock.stockLevel ? product.stock.stockLevel : product.stock.stockLevelStatus.hasOwnProperty("code"),
-        backgroundColor: this.handleSelected,
+        handleSelected: this.handleSelected,
       }));
       this.setState({items});
 
@@ -65,8 +66,19 @@ class Catalog extends Component {
 
     }
 
+    processString(str){
+        const noises = ["<h5>","<br/>","<span>","</h5>"];
+        let processed = str;
+        for(let i=0; i<noises.length; i++){
+            const re = new RegExp(noises[i],"g");
+            const p = noises[i] === "<h5>" ? "" : "\n";
+            processed = processed.replace(re,p);
+        }
+        return processed;
+    }
+
     createItem = (info) => {
-      const { id, name, img, code, price, backgroundColor, selected} = info;
+      const {id, name, img, code, price, handleSelected, selected} = info;
       const markedPrice = price;
       const imgsource = img ? img : null;
 
@@ -83,21 +95,22 @@ class Catalog extends Component {
               <button className="Details" onClick={() => this.handleViewDetail(id)}>Details</button>
               {info.previewing && (
                 <PreviewItem code={code ? code : null} price={markedPrice.hasOwnProperty("formattedValue") ? markedPrice.formattedValue :
-                markedPrice.value} handleSelected={backgroundColor} id={id} selected={selected}/>
+                markedPrice.value} handleSelected={handleSelected} id={id} selected={selected}/>
               )}
             </div>
           );
       }else{
             if(id===this.state.ViewingID){
                 const target = this.state.items[id];
-                console.log(target);
+                console.log(this.processString(target.description));
                 return(
                 <div className="details">
                     <img className="detail-img" src={imgsource[0].url} alt="No source" />
-                    <p className="detail-price">{markedPrice.hasOwnProperty("formattedValue") ? markedPrice.formattedValue :
+                    <p className="detail-price">Price: {markedPrice.hasOwnProperty("formattedValue") ? markedPrice.formattedValue :
                     markedPrice.value}</p>
                     <p className="instock">Stock: {target.inStock ? target.inStock : "No details"}</p>
-                    <p className="desc">{target.description}</p>
+                    <pre className="desc" >Description: {target.description}</pre>
+                    <pre className="summary">Summary: {target.summary}</pre>
                     <button className="goBackToCatalog" onClick={() => this.goBackToCatalog()}>Back</button>
                 </div>
                 )

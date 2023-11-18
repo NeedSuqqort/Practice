@@ -13,6 +13,7 @@
     text-align: center;
 }
 
+
 .preview{
     justify-self: center;
 }
@@ -23,6 +24,12 @@
 
 .price{
     font-size: 24;
+    width: 50%;
+}
+
+.desc,.summary{
+    float: left;
+    width: 50%;
 }
 
 .preview-data{
