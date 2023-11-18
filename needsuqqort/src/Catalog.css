@@ -1,11 +1,31 @@
 .displayitem{
-    border: 2px solid black;
-    box-sizing: border-box;
-    width: 50%;
+    border: 5px solid black;
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    width: 30%;
+    margin: 10px 10px 10px 10px;
     float: left;
-    position: relative;
+    /* position: relative; */
+    align-items: center;
+}
+
+.img{
+    text-align: center;
+}
+
+.preview{
+    justify-self: center;
+}
+
+.name{
+    font-size: 24;
 }
 
 .price{
     font-size: 24;
+}
+
+.preview-data{
+    position: relative;
+    width: 33.3%;
 }
