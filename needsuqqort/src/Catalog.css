@@ -1,0 +1,11 @@
+.displayitem{
+    border: 2px solid black;
+    box-sizing: border-box;
+    width: 50%;
+    float: left;
+    position: relative;
+}
+
+.price{
+    font-size: 24;
+}
