@@ -7,17 +7,25 @@
     float: left;
     position: relative;
     align-items: center;
+    overflow: auto;
+    min-height: 400px;
+
+}
+
+.frame{
+    text-align: center;
 }
 
 .img{
     text-align: center;
-    width: 300px;
-    width: 300px;
+    width: 250px;
+    width: 250px;
 }
 
 
 .preview{
-    justify-self: center;
+    text-align: center;
+    font-size: 24;
 }
 
 .name{
@@ -31,6 +39,12 @@
     margin-left: 10px;
 }
 
+.code,.price{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30;
+}
+
 .desc,.summary{
     float: left;
     width: 48%;
@@ -41,5 +55,32 @@
 
 .preview-data{
     position: relative;
-    width: 33.3%;
+
+}
+
+.clearall{
+    text-align: center;
+    align-items: center;
+    display: flex;
+}
+
+button{
+    background-color: #4681f4;
+    color: #FFFFFF;
+    width: 80px;
+    height: 50px;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 2px 0 #f2f2f2;
+}
+
+button:hover{
+    background-color: #dd7973;
+}
+
+button:active{
+    transform: translateY(2px);
+    background-color: #4681f4;
+    box-shadow: 0 2px 2px 0 #bbbbbb
 }

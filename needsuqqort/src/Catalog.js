@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PreviewItem from "./PreviewItem";
-import data from './data.json'
+import localdata from './data.json';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './Catalog.css'
 
 class Catalog extends Component {
@@ -11,17 +12,43 @@ class Catalog extends Component {
             viewingDetail: false,
             ViewingID: null,
         }
+        this.source = null;
     }
     
     // start by reading data from the json file
-    componentDidMount() {
-      this.buildAllItems();
+    componentDidMount(){
+      const url = 'https://raw.githubusercontent.com/NeedSuqqort/Practice/main/data.json';
+      this.fetchData(this.loadfromlocal,url);
+    }
+
+    // error handling: if the file is missing, load it from the local copy
+    loadfromlocal = (error) => {
+      if(error){
+        console.log('Request failed:', error, '\n data will be now loaded from local json');
+        this.buildAllItems(localdata);
+      }
+    }
+
+    // fetch data from data.json in GitHub
+    fetchData(callback,url){
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET',url, true);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          this.buildAllItems(JSON.parse(xhr.responseText));
+        }
+      }
+    
+      xhr.onerror = function(error) {
+        callback(error);
+      };
+      xhr.send();
     }
     
     // read data from data.json, and storing all products with necessary details into the array
-    buildAllItems() {
-      const items = data.products.map((product, index) => ({
-          name: product.name,
+    buildAllItems(source){
+      const items = source.products.map((product, index) => ({
+          name: product.name ? product.name : this.findName(product),
           id: index,
           image: this.searchForImg(product),
           code: product.code,
@@ -34,6 +61,17 @@ class Catalog extends Component {
           handleSelected: this.handleSelected,
       }));
       this.setState({items});
+    }
+
+    findName(source){
+        const target = source.description ? source.description : source.summary;
+        if(target){
+            const parser = new DOMParser();
+            const str = parser.parseFromString(target,'text/html');
+            const section = str.querySelector('p');
+            return section.firstChild.textContent.trim();
+        }
+        return null;
     }
 
     // find all image URLs available for the product, returns an array of URLs
@@ -109,14 +147,15 @@ class Catalog extends Component {
 
     // process the summary and description strings, remove the unnecessary tags
     processString(str){
-        const noises = ["<h5>","<br/>","<span>","</h5>","<p>","</p>","</span>"];
-        let processed = str;
-        for(let i=0; i<noises.length; i++){
-            const re = new RegExp(noises[i],"g");
-            const p = (noises[i] === "<h5>" ? "" : "\n");
-            processed = processed.replace(re,p);
-        }
-        return processed;
+        const noises = new RegExp(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/,"g");
+        return str.replace(noises,"\n");
+    }
+
+    clearall(){
+        const updatedItems = this.state.items.map((item) => {
+            return {...item, selected: false};
+        })
+        this.setState({items: updatedItems});
     }
 
     // responsible to render the whole page, and handles the swapping to the detail page when required
@@ -132,6 +171,7 @@ class Catalog extends Component {
       if(!this.state.viewingDetail){
         return (
             <div className="displayitem" key={id} style={{backgroundColor: this.state.items[id].selected ? '#BBBBBB' : '#F2F2F2'}}>
+              <div className="frame">
               <img className="img" 
               src={imgsource[0]}
               alt="No source" />
@@ -142,6 +182,7 @@ class Catalog extends Component {
                 <PreviewItem code={code ? code : null} price={markedPrice.hasOwnProperty("formattedValue") ? markedPrice.formattedValue :
                 markedPrice.value} handleSelected={handleSelected} id={id} selected={selected}/>
               )}
+              </div>
             </div>
           );
       }else{
@@ -150,7 +191,8 @@ class Catalog extends Component {
                 return(
                 <div className="details">
                     <img className="detail-img" src={target.image[0]} onError={() => this.findImg(id)} alt=""/>
-                    <p className="detail-price">Price: {markedPrice.hasOwnProperty("formattedValue") ? markedPrice.formattedValue :
+                    <p className="detail-price">
+                      Price: {markedPrice.hasOwnProperty("formattedValue") ? markedPrice.formattedValue :
                     markedPrice.value}</p>
                     <p className="instock">Stock: {target.inStock ? target.inStock : "No details"}</p>
                     <pre className="desc" >Description:<br/>{target.description}</pre>
@@ -163,7 +205,17 @@ class Catalog extends Component {
     };
 
     render() {
-      return <div>{this.state.items.map((item) => this.createItem(item))}</div>;
+      return(
+        <div>
+          <div className="d-flex justify-content-center"
+            onClick={() => this.clearall()}>
+            {!this.state.viewingDetail && <button className="clearall">Clear all</button>}
+          </div>          
+          <div className="catalog">
+            {this.state.items.map((item) => this.createItem(item))}
+          </div>
+        </div>
+      );
     }
   }
   
