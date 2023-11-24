@@ -47,17 +47,21 @@ class Catalog extends Component {
     
     // read data from data.json, and storing all products with necessary details into the array
     buildAllItems(source){
+      if(!source.hasOwnProperty("products")){
+          return;
+      }
       const items = source.products.map((product, index) => ({
           name: product.name ? product.name : this.findName(product),
           id: index,
           image: this.searchForImg(product),
-          code: product.code,
+          code: product.code ? product.code : "",
           price: product.price ? product.price : product.priceList['0'],
           previewing: false,
           selected: false,
-          description: product.description ? this.processString(product.description) : "",
-          summary: product.summary ? this.processString(product.summary) : "",
-          inStock: product.stock.stockLevel ? product.stock.stockLevel : product.stock.stockLevelStatus.hasOwnProperty("code"),
+          description: product.hasOwnProperty("description") ? this.processString(product.description) : "",
+          summary: product.hasOwnProperty("summary") ? this.processString(product.summary) : "",
+          inStock: product.stock.hasOwnProperty("stockLevel") ? product.stock.stockLevel 
+          : (product.stock.stockLevelStatus.hasOwnProperty("code") ? product.stock.stockLevelStatus.code : null),
           handleSelected: this.handleSelected,
       }));
       this.setState({items});
@@ -161,11 +165,11 @@ class Catalog extends Component {
     // responsible to render the whole page, and handles the swapping to the detail page when required
     createItem = (info) => {
       const {id, name, image, code, price, handleSelected, selected} = info;
-      const markedPrice = price;
+      const markedPrice = price ? price : null;
       const imgsource = image ? image : null;
 
-      if (!markedPrice || !imgsource){
-            return null;
+      if(!markedPrice||!imgsource){
+          return;
       }
 
       if(!this.state.viewingDetail){
