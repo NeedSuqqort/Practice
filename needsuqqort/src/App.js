@@ -5,7 +5,7 @@ import './App.css';
 const App = () =>{
     return (
       <div>
-          <h5>Product list</h5>
+          <h5>The product list</h5>
           <hr />
           <Catalog/>
       </div>
